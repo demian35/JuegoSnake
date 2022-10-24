@@ -11,7 +11,7 @@ package PaqueteJuego;
 public class Tablero extends javax.swing.JFrame {
 
     /**
-     * Creates new form Tablero
+     * Crea el tablero o la vista del juego
      */
     public Tablero() {
         initComponents();
