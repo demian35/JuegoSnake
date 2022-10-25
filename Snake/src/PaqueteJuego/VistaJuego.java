@@ -15,7 +15,16 @@ public class VistaJuego extends javax.swing.JFrame {
      */
     public VistaJuego() {
         initComponents();
-        PanelTablero fondo= new PanelTablero(800,30);
+        this.setLocationRelativeTo(null);
+        PanelSnake serp= new PanelSnake(800,30);
+        this.add(serp);
+        serp.setBounds(10, 10, 800, 800);
+        serp.setOpaque(false);//para que el panel de la serpiente no tape el tablero y se vean los dos
+        
+        PanelTablero fondo= new PanelTablero(800,30); //instamciamos el fondo
+        this.add(fondo);
+        fondo.setBounds(10,10,800,800);//agregamos los limites de nuestra vista
+                
     }
 
     /**
@@ -33,11 +42,11 @@ public class VistaJuego extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 779, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
 
         pack();
