@@ -19,6 +19,7 @@ public class PanelTablero extends JPanel{
    private  int  maxtam; // maximo tamaño del panel
    private int tam; //tamaño de cada cuadrito del panel (tablero)
    private int cantidad; //cantidad de cuadritos
+   private int res;
    
    //constructor de nuestro panel recibiremos los atributos del panel
     
@@ -26,6 +27,7 @@ public class PanelTablero extends JPanel{
        this.maxtam=maxtam;
        this.cantidad=cantidad; 
        this.tam=maxtam/cantidad;
+       this.res=maxtam%cantidad;
    }
    
    //metodo paint servira para ir pintando y renderisando la imagen mientras la 
@@ -37,7 +39,7 @@ public class PanelTablero extends JPanel{
        //pintaremos los renglones y columnas en el tablero con dos for anidados
        for(int i=0; i<cantidad;i++){//pintamos los renglones horizontales eje x
            for(int j=0; j<cantidad; j++){//pintamos las columnas verticales eje y
-               pintor.drawRect(i*tam, j*tam, tam-1, tam-1);
+               pintor.fillRect(res/2+i*tam, res/2+j*tam, tam-1, tam-1);
            }
        }
    }
