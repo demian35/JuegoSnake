@@ -10,18 +10,19 @@ package PaqueteJuego;
  */
 public class VistaJuego extends javax.swing.JFrame {
 
+    PanelSnake serp; //creamos el objeto snake
     /**
      * Creates new form VistaJuego
      */
     public VistaJuego() {
         initComponents();
         this.setLocationRelativeTo(null);
-        PanelSnake serp= new PanelSnake(800,30);
+        serp= new PanelSnake(800,30);
         this.add(serp);
         serp.setBounds(10, 10, 800, 800);
         serp.setOpaque(false);//para que el panel de la serpiente no tape el tablero y se vean los dos
         
-        PanelTablero fondo= new PanelTablero(800,30); //instamciamos el fondo
+        PanelTablero fondo= new PanelTablero(800,30); //instanciamos el fondo
         this.add(fondo);
         fondo.setBounds(10,10,800,800);//agregamos los limites de nuestra vista
                 
@@ -36,21 +37,42 @@ public class VistaJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnavanzar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnavanzar.setText("avanzar");
+        btnavanzar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnavanzarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnavanzar)
+                .addContainerGap(722, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnavanzar)
+                .addContainerGap(771, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnavanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnavanzarActionPerformed
+        // TODO add your handling code here:
+        serp.avance();
+        serp.repaint();
+    }//GEN-LAST:event_btnavanzarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -88,5 +110,6 @@ public class VistaJuego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnavanzar;
     // End of variables declaration//GEN-END:variables
 }
