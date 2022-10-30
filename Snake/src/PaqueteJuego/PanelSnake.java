@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -17,15 +18,15 @@ import javax.swing.JPanel;
 public class PanelSnake extends JPanel{
 
     
-   private Color colorSerpiente= Color.blue; //color del tablero , usando la clase Color 
-   private Color puntoComida=Color.RED; //color de la comida(punto) objetivo 
-   private  int  maxtam; // maximo tamaño del panel
-   private int tam; //tamaño de cada cuadrito del panel (tablero)
-   private int cantidad; //cantidad de cuadritos
-   private int res;
-   private List<int[]> serpiente= new ArrayList<>();//lista de arreglos de enteros en donde guardaremos las coordenadas por donde recorrera la snake
-   private int[] comida; //arreglo donde se guardara una coordenada para imprimir la comida
-   private String direccion="der"; //variable para indicar la direccion por defecto va a la derecha
+    Color colorSerpiente= Color.blue; //color del tablero , usando la clase Color 
+    Color puntoComida=Color.RED; //color de la comida(punto) objetivo 
+    int  maxtam; // maximo tamaño del panel
+    int tam; //tamaño de cada cuadrito del panel (tablero)
+    int cantidad; //cantidad de cuadritos
+    int res;
+    List<int[]> serpiente= new ArrayList<>();//lista de arreglos de enteros en donde guardaremos las coordenadas por donde recorrera la snake
+    int[] comida =new int[2]; //arreglo donde se guardara una coordenada para imprimir la comida
+    String direccion="der"; //variable para indicar la direccion por defecto va a la derecha
    
    
    //constructor de nuestro panel recibiremos los atributos del panel
@@ -39,6 +40,10 @@ public class PanelSnake extends JPanel{
        int[] b={cantidad/2,cantidad/2-1};//Par ordenado que marcara la comida
        serpiente.add(a);
        serpiente.add(b);
+       generaComida();
+       comida[0]=25;
+       comida[1]=14;
+       
    }
    
    //metodo paint servira para ir pintando y renderisando la imagen mientras la 
@@ -47,9 +52,14 @@ public class PanelSnake extends JPanel{
    public void paint(Graphics pintor){
        super.paint(pintor);//borramos lo pintado previamente y lo volvemos a pintar
        pintor.setColor(colorSerpiente); //asignamos el color a la serpiente
-       for(int i=0;i<serpiente.size();i++){//for para pintar cada arreglito que conformara nuestra serpiente
+       //pintando la serpiente
+       for(int i=0;i<serpiente.size();i++){//for para pintar cada celda que conformara nuestra serpiente
           pintor.fillRect(res/2+serpiente.get(i)[0]*tam,res/2+serpiente.get(i)[1]*tam,tam-1,tam-1);
-       }   
+       }
+       
+       //pintando la comida
+       pintor.setColor(puntoComida);
+       pintor.fillRect(res/2+comida[0]*tam,res/2+comida[1]*tam,tam-1,tam-1);
    }
    public void avance(){ //metodo para que la snake avance
        int [] ultimo=serpiente.get(serpiente.size()-1); //este capturara la cordenadas de cada movimiento del ultimo cuadro(cabeza)
@@ -65,10 +75,51 @@ public class PanelSnake extends JPanel{
            case "abj": agregary=1;//si el movimiento es a la derecha el movimiento es positivo en las y 
            break;
        }
+       int[] nuevaposicion={Math.floorMod(ultimo[0]+agregarx,cantidad),
+           Math.floorMod(ultimo[1]+agregary,cantidad)}; //es la nueva posicion que tendra el ultimo cuadrito(cabeza)
+       boolean existe=false;
+        //for para hacer que si la serpiente choca se termina el juego
+       for(int i=0;i<serpiente.size();i++){
+           if(nuevaposicion[0]==serpiente.get(i)[0] && nuevaposicion[1]==serpiente.get(i)[i]){
+               existe=true;
+               break;
+           }
+       }
        
-       int[] nuevaposicion={ultimo[0]+agregarx,ultimo[1]+agregary}; //es la nueva posicion que tendra el ultimo cuadrito(cabeza)
+       if(existe){//si la serpiente choca lanzaremos un mensaje de haz perdido
+           JOptionPane.showMessageDialog(this, "Game Over");
+       }else{
+           //si agarramos comida entonces agrandamos la sermpiente agregandole otro cuadrito
+           if(nuevaposicion[0]==comida[0] && nuevaposicion[1]==comida[1]){
+               serpiente.add(nuevaposicion);
+               generaComida(); //una vez que come volvemos a generar comida en otro lado
+           }else{
+             serpiente.add(nuevaposicion);  
+             serpiente.remove(ultimo);
+           }
+       }
+           
+       
        serpiente.add(nuevaposicion); //pintamos el nuevo cuadrito para reflejar el movimiento
        serpiente.remove(ultimo);//borramos el cuadrito previo
+   }
+   
+   public void generaComida(){//funcion que generara comida buscando coordenadas que no esten ocupadas por la serpiente de forma aleatoria
+       boolean existe=false; //booleano que determinara si una celda o coordenada  ya esta ocupada o no
+       int a= (int)(Math.random()*cantidad); //buscara en el eje de las x, Se castea porque se necesitan valores enteros forzosamente
+       int b=(int)(Math.random()*cantidad);
+       for(int i=0;i<serpiente.size();i++){ //recorremos la serpiente para ver cuales celdas estan ocupadas por la misma
+           if(a==0 && b==1){
+               existe=true;
+               generaComida();
+               break;
+           }
+       }
+        
+       if(!existe){
+           this.comida[0]=a;
+           this.comida[1]=b;
+       }
    }
 }
 
