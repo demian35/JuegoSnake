@@ -15,11 +15,11 @@ import javax.swing.JPanel;
  */
 public class PanelTablero extends JPanel{
     
-   private Color fondo= Color.green; //color del tablero , usando la clase Color 
-   private  int  maxtam; // maximo tamaño del panel
-   private int tam; //tamaño de cada cuadrito del panel (tablero)
-   private int cantidad; //cantidad de cuadritos
-   private int res;
+    Color fondo= Color.green; //color del tablero , usando la clase Color 
+    int  maxtam; // maximo tamaño del panel
+    int tam; //tamaño de cada cuadrito del panel (tablero)
+    int cantidad; //cantidad de cuadritos
+    int res;
    
    //constructor de nuestro panel recibiremos los atributos del panel
     

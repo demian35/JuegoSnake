@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -17,15 +18,15 @@ import javax.swing.JPanel;
 public class PanelSnake extends JPanel{
 
     
-   private Color colorSerpiente= Color.blue; //color del tablero , usando la clase Color 
-   private Color puntoComida=Color.RED; //color de la comida(punto) objetivo 
-   private  int  maxtam; // maximo tamaño del panel
-   private int tam; //tamaño de cada cuadrito del panel (tablero)
-   private int cantidad; //cantidad de cuadritos
-   private int res;
-   private List<int[]> serpiente= new ArrayList<>();//lista de arreglos de enteros en donde guardaremos las coordenadas por donde recorrera la snake
-   private int[] comida =new int[2]; //arreglo donde se guardara una coordenada para imprimir la comida
-   private String direccion="der"; //variable para indicar la direccion por defecto va a la derecha
+    Color colorSerpiente= Color.blue; //color del tablero , usando la clase Color 
+    Color puntoComida=Color.RED; //color de la comida(punto) objetivo 
+    int  maxtam; // maximo tamaño del panel
+    int tam; //tamaño de cada cuadrito del panel (tablero)
+    int cantidad; //cantidad de cuadritos
+    int res;
+    List<int[]> serpiente= new ArrayList<>();//lista de arreglos de enteros en donde guardaremos las coordenadas por donde recorrera la snake
+    int[] comida =new int[2]; //arreglo donde se guardara una coordenada para imprimir la comida
+    String direccion="der"; //variable para indicar la direccion por defecto va a la derecha
    
    
    //constructor de nuestro panel recibiremos los atributos del panel
@@ -40,6 +41,8 @@ public class PanelSnake extends JPanel{
        serpiente.add(a);
        serpiente.add(b);
        generaComida();
+       comida[0]=25;
+       comida[1]=14;
        
    }
    
@@ -72,9 +75,31 @@ public class PanelSnake extends JPanel{
            case "abj": agregary=1;//si el movimiento es a la derecha el movimiento es positivo en las y 
            break;
        }
-       
        int[] nuevaposicion={Math.floorMod(ultimo[0]+agregarx,cantidad),
            Math.floorMod(ultimo[1]+agregary,cantidad)}; //es la nueva posicion que tendra el ultimo cuadrito(cabeza)
+       boolean existe=false;
+        //for para hacer que si la serpiente choca se termina el juego
+       for(int i=0;i<serpiente.size();i++){
+           if(nuevaposicion[0]==serpiente.get(i)[0] && nuevaposicion[1]==serpiente.get(i)[i]){
+               existe=true;
+               break;
+           }
+       }
+       
+       if(existe){//si la serpiente choca lanzaremos un mensaje de haz perdido
+           JOptionPane.showMessageDialog(this, "Game Over");
+       }else{
+           //si agarramos comida entonces agrandamos la sermpiente agregandole otro cuadrito
+           if(nuevaposicion[0]==comida[0] && nuevaposicion[1]==comida[1]){
+               serpiente.add(nuevaposicion);
+               generaComida(); //una vez que come volvemos a generar comida en otro lado
+           }else{
+             serpiente.add(nuevaposicion);  
+             serpiente.remove(ultimo);
+           }
+       }
+           
+       
        serpiente.add(nuevaposicion); //pintamos el nuevo cuadrito para reflejar el movimiento
        serpiente.remove(ultimo);//borramos el cuadrito previo
    }
